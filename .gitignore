@@ -1,5 +1,8 @@
-data/*
 venv/*
 __pycache__/*
 
-!.gitkeep
+data/*
+!/data/temp/
+
+data/temp/*
+!/data/temp/.gitkeep
