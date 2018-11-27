@@ -54,12 +54,8 @@ class DataOperat:
         if (total_size // batch_size) < 1:
             raise Exception(f'batch_size{batch_size} is bigger than total_size{total_size}')
         for i in range(total_size // batch_size):
-            batch_data_x = []
-            batch_data_y = []
-            for data_x, data_y in data_set[i*batch_size:(i+1)*batch_size]:
-                batch_data_x.append(data_x)
-                batch_data_y.append(data_y)
-            yield torch.stack(batch_data_x), torch.stack(batch_data_y)
+            yield (torch.stack([data[0] for data in data_set[i*batch_size:(i+1)*batch_size]]),
+                   torch.stack([data[1] for data in data_set[i*batch_size:(i+1)*batch_size]]))
 
 
 class LangOperat:
@@ -105,7 +101,7 @@ class LangOperat:
         elif padding_len < len(id_list):
             raise Exception(f'id_list is big: {id_list}[{len(id_list)}]')
         return id_list
-            
+
 
 if __name__ == '__main__':
     # test code (usuary not use)
