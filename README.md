@@ -6,5 +6,7 @@
 その根拠も示すプログラム  
 実装の大部分を http://nlp.seas.harvard.edu/2018/04/03/attention.html#position-wise-feed-forward-networks のプログラムを参考に実装した  
   
-Thank you  
+Thanks to  
 Guillaume Klein and Yoon Kim and Yuntian Deng and Jean Senellart and Alexander M. Rush  
+and  
+https://arxiv.org/pdf/1706.03762.pdf  
