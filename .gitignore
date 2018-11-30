@@ -1,6 +1,9 @@
 venv/*
 __pycache__/*
+trainer/__pycache__/*
+*.pt
 *.ps1
+!run_Sample.ps1
 
 data/*
 !/data/.gitkeep

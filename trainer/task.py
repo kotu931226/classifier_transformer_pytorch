@@ -31,6 +31,7 @@ y_path = config.y_path
 model_path = config.model_path
 temp_model_path = config.temp_model_path
 losses_path = config.losses_path
+input_model_path = config.input_model_path
 
 device = config.device
 logging.info('use {}'.format(device))
@@ -45,6 +46,8 @@ parser.add_argument('--train-data', help='absolute file path',
                     default=None)
 parser.add_argument('--test-data', help='absolute file path',
                     default=None)
+parser.add_argument('--input-model', help='absolute dir path',
+                    default=None)
 parser.add_argument('--epochs', help='set epochs',
                     type=int, default=config.n_epoch)
 parser.add_argument('--job-dir')
@@ -53,6 +56,7 @@ config.emit_path.abs_path = args.output_model
 config.emit_path.temp_model_path = args.output_temp_model
 config.emit_path.abs_pad_x_path = args.train_data
 config.emit_path.abs_y_path = args.test_data
+config.emit_path.abs_input_model_path = args.input_model
 n_epoch = args.epochs
 
 logging.info('config loaded')
@@ -64,6 +68,9 @@ optimizer = torch.optim.Adagrad(filter(lambda p: p.requires_grad, model.paramete
 data_set = DataOperat.create_data_set(pad_id_path(), y_path(), device=device)
 dev_idx = len(data_set)*7//8
 loss_fn = nn.NLLLoss(ignore_index=0)
+
+if args.input_model:
+    DataOperat.load_torch_model(input_model_path(), model)
 
 # start train def
 def train(model, data, optimizer, n_epoch, batch_size, dev_data=None):
@@ -80,7 +87,7 @@ def train(model, data, optimizer, n_epoch, batch_size, dev_data=None):
             loss.backward()
             optimizer.step()
         test(model, dev_data, batch_size)
-        if epochs % 2 == 0:
+        if epochs % 20 == 0:
             DataOperat.save_torch_model(temp_model_path(epochs), model)
 
 def test(model, dev_data, batch_size):
@@ -113,4 +120,3 @@ train(model, train_data, optimizer, n_epoch, batch_size, dev_data=dev_data)
 
 DataOperat.save_torch_model(model_path(), model)
 logging.info('end train')
-# raise Exception('finish train')

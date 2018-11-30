@@ -31,6 +31,7 @@ class EmitPath:
         self.abs_x_path = None
         self.abs_y_path = None
         self.abs_pad_x_path = None
+        self.abs_input_model_path = None
 
     def emit_x_path(self):
         if self.abs_x_path:
@@ -58,6 +59,11 @@ class EmitPath:
 
     def emit_losses_path(self):
         return os.path.join(self.abs_path, 'losses.csv')
+
+    def emit_input_model_path(self):
+        if self.abs_input_model_path:
+            return self.abs_input_model_path
+        raise Exception('input_model_path is None')
     
 # init EmitPath
 emit_path = EmitPath(place_of_data)
@@ -68,3 +74,4 @@ pad_id_path = emit_path.emit_pad_x_path
 model_path = emit_path.emit_model_path
 temp_model_path = emit_path.emit_temp_model_path
 losses_path = emit_path.emit_losses_path
+input_model_path = emit_path.emit_input_model_path
